@@ -1,6 +1,5 @@
 package org.example;
 
-import javax.lang.model.type.ArrayType;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,19 +17,14 @@ public class Main {
         // 2) Create a list of random numbers using Stream.generate() , should have 20 items and print in console
         System.out.println("2)");
 
-        Stream.generate(Math::random)
-                .limit(20)
-                .forEach(System.out::println);
+        StreamUtils.generateRandomNumbersStream(20).forEach(System.out::println);
 
         // 3) Collect Stream elements to a List:  Convert list elements to stream,
         // select only even ones, use the collect method to collect them into a List:
         System.out.println("3)");
 
         Stream<Integer> stream2 = Stream.of(1,2,3,4,5,6,7,8,9);
-        List<Integer> EvenList = stream2
-                .filter(x -> x % 2 == 0)
-                .toList();
-
+        List<Integer> EvenList = StreamUtils.filterEvenNumbersToList(stream2);
         EvenList.forEach(System.out::println);
 
         // Task 2
@@ -44,7 +38,7 @@ public class Main {
         // 4) Repeat the same as in task 3) but collect all the elements in Array [];
         System.out.println("4)");
 
-        Integer[] array = list.stream().filter(x -> x % 2 == 0).toArray(Integer[]::new);
+        Integer[] array = StreamUtils.filterEvenNumbersToArray(list);
         for (int x : array) {
             System.out.println(x);
         }
@@ -54,11 +48,7 @@ public class Main {
         System.out.println("5)");
 
         List<String> myList = Arrays.asList("a1", "a2", "b1", "c2", "c1");
-        myList.stream()
-                .filter(s -> s.startsWith("c"))
-                .map(String::toUpperCase)
-                .sorted(Comparator.reverseOrder())
-                .forEach(System.out::println);
+        StreamUtils.filterAndSortStringList(myList).forEach(System.out::println);
 
         // Task 3
         System.out.println("Task 3");
@@ -79,19 +69,12 @@ public class Main {
         // a) Display names that start with ‘A’ and have length > 5;
         System.out.println("a)");
 
-        memberNames
-                .stream()
-                .filter(s -> s.startsWith("A") && s.length() > 5)
-                .forEach(System.out::println);
+        StreamUtils.filterNamesStartingWithA(memberNames).forEach(System.out::println);
 
         // b) Sort all names and display them in lower case on the screen
         System.out.println("b)");
 
-        memberNames
-                .stream()
-                .sorted(Comparator.naturalOrder())
-                .map(String::toLowerCase)
-                .forEach(System.out::println);
+        StreamUtils.convertToLowerCaseAndSort(memberNames).forEach(System.out::println);
 
         // 7) Stream.match() - Various matching operations can be used to check whether a given predicate matches the stream elements.
         // Match returns a boolean result.
@@ -101,41 +84,32 @@ public class Main {
 
         System.out.println("7)");
 
-        boolean containsS = memberNames
-                .stream()
-                .anyMatch(s -> s.contains("S"));
+        boolean containsS = StreamUtils.containsNameStartingWithS(memberNames);
 
         System.out.println("anyMatch should display true - " + containsS);
 
-        boolean containsH = memberNames
-                .stream()
-                .noneMatch(s -> s.contains("H"));
+        boolean containsH = StreamUtils.containsNoNameStartingWithH(memberNames);
 
         System.out.println("noneMatch should display true - " + containsH);
 
         // 8) Stream.count() - The count() is a terminal operation returning the number of elements in the stream as a long value.
         System.out.println("8)");
 
-        long count = memberNames
-                .stream()
-                .count();
+        long count = StreamUtils.countNames(memberNames);
 
         System.out.println("Number of elements in memberNames array: " + count);
 
         // 9) From task 6 count the number of names starting with “A” - display their number.
         System.out.println("9)");
 
-        long countOfNamesStartingWithA = memberNames
-                .stream()
-                .filter(s -> s.startsWith("A"))
-                .count();
+        long countOfNamesStartingWithA = StreamUtils.countNamesStartingWithA(memberNames);
 
         System.out.println("Number of names starting with A: " + countOfNamesStartingWithA);
 
         // 10) Stream.findFirst() - take the array from task 6 and print the first name starting with ‘L’
         System.out.println("10)");
 
-        Optional<String> nameStartingWithL = memberNames.stream().filter(s -> s.startsWith("L")).findFirst();
+        Optional<String> nameStartingWithL = StreamUtils.findFirstNameStartingWithL(memberNames);
 
         if (nameStartingWithL.isPresent()) {
             System.out.println(nameStartingWithL.get());
@@ -153,19 +127,13 @@ public class Main {
 
         List<List<Integer>> intsNested = Arrays.asList(Arrays.asList(1,2,3), Arrays.asList(4,5,6), Arrays.asList(7,8,9));
 
-        List<Integer> intsFlatStream = intsNested
-                .stream()
-                .flatMap(Collection::stream)
-                .toList();
+        List<Integer> intsFlatStream = StreamUtils.flattenNestedList(intsNested);
 
         System.out.println(intsFlatStream);
 
         String[][] dataArray = new String[][]{{"a", "b"}, {"c", "d"}, {"e", "f"}, {"g", "h"}};
 
-        String[] dataArrayFlat = Arrays
-                .stream(dataArray)
-                .flatMap(Arrays::stream)
-                .toArray(String[]::new);
+        String[] dataArrayFlat = StreamUtils.flattenNestedArray(dataArray);
 
         System.out.println(Arrays.toString(dataArrayFlat));
 
@@ -173,10 +141,7 @@ public class Main {
         System.out.println("12)");
 
         ArrayList<Integer> numbersList = new ArrayList<>(Arrays.asList(1, 1, 2, 3, 3, 3, 4, 5, 6, 6, 6, 7));
-        List<Integer> numbersListDistinct = numbersList
-                .stream()
-                .distinct()
-                .toList();
+        List<Integer> numbersListDistinct = StreamUtils.removeDuplicates(numbersList);
 
         numbersListDistinct.forEach(System.out::println);
 
@@ -186,7 +151,7 @@ public class Main {
         System.out.println("13)");
 
         // Collectors.toMap(keyMapper, valueMapper, mergeFunction - used to resolve collisions between values associated with the same key)
-        Map<Integer, Integer> map = numbersList.stream().collect(Collectors.toMap(x -> x, x -> 1, Integer::sum));
+        Map<Integer, Integer> map = StreamUtils.countOccurrences(numbersList);
         System.out.println(map);
 
         // Task 5
@@ -199,12 +164,7 @@ public class Main {
         people.put("Mary", Arrays.asList("555-2243","z", "555-5264"));
         people.put("Steve", Arrays.asList("555-6654", "555-3242", "d"));
 
-        List<String> onlyLetters = people
-                .values()
-                .stream()
-                .flatMap(List::stream)
-                .filter(str -> str.matches("[a-zA-Z]"))
-                .toList();
+        List<String> onlyLetters = StreamUtils.extractLetters(people);
 
         System.out.println(onlyLetters);
     }
