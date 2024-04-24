@@ -48,7 +48,7 @@ public class Main {
         System.out.println("5)");
 
         List<String> myList = Arrays.asList("a1", "a2", "b1", "c2", "c1");
-        StreamUtils.filterAndSortStringList(myList).forEach(System.out::println);
+        StreamUtils.filterStringsStartingWithCAndSortList(myList).forEach(System.out::println);
 
         // Task 3
         System.out.println("Task 3");
@@ -88,9 +88,9 @@ public class Main {
 
         System.out.println("anyMatch should display true - " + containsS);
 
-        boolean containsH = StreamUtils.containsNoNameStartingWithH(memberNames);
+        boolean containsNoH = StreamUtils.containsNoNameStartingWithH(memberNames);
 
-        System.out.println("noneMatch should display true - " + containsH);
+        System.out.println("noneMatch should display true - " + containsNoH);
 
         // 8) Stream.count() - The count() is a terminal operation returning the number of elements in the stream as a long value.
         System.out.println("8)");

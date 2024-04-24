@@ -28,7 +28,7 @@ public class StreamUtils {
                 .toArray(Integer[]::new);
     }
 
-    public static List<String> filterAndSortStringList(List<String> list) {
+    public static List<String> filterStringsStartingWithCAndSortList(List<String> list) {
         return list.stream()
                 .filter(s -> s.startsWith("c"))
                 .map(String::toUpperCase)
