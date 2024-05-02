@@ -19,7 +19,7 @@ public class StreamUtils {
     public static List<Integer> filterEvenNumbersToList(Stream<Integer> stream) {
         return stream
                 .filter(x -> x % 2 == 0)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public static Integer[] filterEvenNumbersToArray(List<Integer> list) {
@@ -33,20 +33,20 @@ public class StreamUtils {
                 .filter(s -> s.startsWith("c"))
                 .map(String::toUpperCase)
                 .sorted(Comparator.reverseOrder())
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public static List<String> filterNamesStartingWithA(List<String> memberNames) {
         return memberNames.stream()
                 .filter(s -> s.startsWith("A") && s.length() > 5)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public static List<String> convertToLowerCaseAndSort(List<String> memberNames) {
         return memberNames.stream()
                 .sorted(Comparator.naturalOrder())
                 .map(String::toLowerCase)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public static boolean containsNameStartingWithS(List<String> memberNames) {
@@ -79,7 +79,7 @@ public class StreamUtils {
     public static List<Integer> flattenNestedList(List<List<Integer>> nestedList) {
         return nestedList.stream()
                 .flatMap(Collection::stream)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public static String[] flattenNestedArray(String[][] array) {
@@ -92,7 +92,7 @@ public class StreamUtils {
     public static List<Integer> removeDuplicates(List<Integer> numbersList) {
         return numbersList.stream()
                 .distinct()
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public static Map<Integer, Integer> countOccurrences(List<Integer> numbersList) {
@@ -104,6 +104,6 @@ public class StreamUtils {
         return people.values().stream()
                 .flatMap(List::stream)
                 .filter(str -> str.matches("[a-zA-Z]"))
-                .toList();
+                .collect(Collectors.toList());
     }
 }
