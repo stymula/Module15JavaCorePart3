@@ -2,6 +2,7 @@ import org.example.StreamUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +15,7 @@ public class StreamUtilsTest {
 
         assertNotNull(randomStream);
 
-        List<Double> resultList = randomStream.toList();
+        List<Double> resultList = randomStream.collect(Collectors.toList());;
 
         assertEquals(limit, resultList.size());
 
